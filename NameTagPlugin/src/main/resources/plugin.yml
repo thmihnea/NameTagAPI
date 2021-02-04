@@ -1,0 +1,7 @@
+name: NameTagAPI
+author: thmihnea
+main: by.thmihnea.NameTagAPI
+version: 1.0
+description: An API which allows the creation of mob nametags without any sort of lag.
+
+api-version: 1.13
