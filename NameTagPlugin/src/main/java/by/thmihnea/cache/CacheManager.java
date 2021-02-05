@@ -184,4 +184,15 @@ public class CacheManager {
         cache.put(entity, map);
     }
 
+    /**
+     * Tells us if an entity is already in
+     * our cached data structure/if it has
+     * a NameTag.
+     * @param entity Entity to look up after.
+     * @return {@link Boolean}
+     */
+    public static boolean hasNameTag(Entity entity) {
+        return cache.containsKey(entity);
+    }
+
 }

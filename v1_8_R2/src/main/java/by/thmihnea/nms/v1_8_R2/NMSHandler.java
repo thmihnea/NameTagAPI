@@ -42,6 +42,11 @@ public class NMSHandler implements INMSHandler {
      */
     @Override
     public void setNameTag(Player player, Entity entity, String tag) {
+        if (CacheManager.hasNameTag(entity)) {
+            NameTagAPI.getInstance().logInfo("Entity #" + entity.getUniqueId() + " (TYPE: " + entity.getType() + ") already has a Name Tag, therefore a new one can't be set!");
+            return;
+        }
+
         tag = ChatColor.translateAlternateColorCodes('&', tag);
 
         LivingEntity entityLiving = CacheManager.getArmorStand(player, entity);

@@ -19,8 +19,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +40,11 @@ public class NMSHandler implements INMSHandler {
      */
     @Override
     public void setNameTag(Player player, Entity entity, String tag) {
+        if (CacheManager.hasNameTag(entity)) {
+            NameTagAPI.getInstance().logInfo("Entity #" + entity.getUniqueId() + " (TYPE: " + entity.getType() + ") already has a Name Tag, therefore a new one can't be set!");
+            return;
+        }
+
         tag = ChatColor.translateAlternateColorCodes('&', tag);
 
         LivingEntity entityLiving = CacheManager.getArmorStand(player, entity);
@@ -402,15 +405,7 @@ public class NMSHandler implements INMSHandler {
         entityArmorStand.setCustomNameVisible(true);
         entityArmorStand.setCustomName(tag);
         entityArmorStand.setGravity(false);
-
-        Class<?> clazz = entityArmorStand.getClass();
-        try {
-            Method m = clazz.getDeclaredMethod("n", boolean.class);
-            m.setAccessible(true);
-            m.invoke(entityArmorStand, true);
-        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        entityArmorStand.setMarker(true);
 
         return entityArmorStand;
     }

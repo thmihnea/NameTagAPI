@@ -46,6 +46,12 @@ public class NameTagAPI extends AbstractPlugin {
     private long timeEnabled;
 
     /**
+     * NMS version which the server
+     * is currently running with.
+     */
+    private String version;
+
+    /**
      * The list of {@link Listener} which
      * has to be registered.
      */
@@ -119,6 +125,7 @@ public class NameTagAPI extends AbstractPlugin {
         this.logInfo("Attempting to load net.minecraft.server methods using your server version.");
         String packageName = this.getServer().getClass().getPackage().getName();
         String version = packageName.substring(packageName.lastIndexOf('.') + 1);
+        this.version = version;
         try {
             Class<?> clazz = Class.forName("by.thmihnea.nms." + version + ".NMSHandler");
             if (INMSHandler.class.isAssignableFrom(clazz))
@@ -157,5 +164,14 @@ public class NameTagAPI extends AbstractPlugin {
             getNMSHandler().abortPipelineMonitoring(player);
             getNMSHandler().startPipelineMonitoring(player);
         });
+    }
+
+    /**
+     * Returns the NMS version which
+     * the server is currently running on.
+     * @return {@link String}
+     */
+    public String getVersion() {
+        return this.version;
     }
 }
